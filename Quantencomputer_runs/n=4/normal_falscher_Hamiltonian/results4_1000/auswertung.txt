@@ -1,0 +1,5 @@
+ca. 250 von 1000 -8
+Stellungen von den -8 sind allerdings grottig und worst case (eine Diagonale)
+-> Hamiltonian falsch
+sehr viele falsche oft vorhanden (z.B.: 276 x -6)
+-> deutlich mehr falsche als richtige
