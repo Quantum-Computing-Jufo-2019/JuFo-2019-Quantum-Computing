@@ -1,4 +1,0 @@
-keine einzige bestlösung !!!!!!!!!!
--> 4er zu 2 austauschen funktioniert nicht !!!!
--> zusätzlich Hamiltonian falsch (aus anderen Ergebnissen erkennbar)
--> nochmal mit gefixtem Hamiltonian versuchen falls dann überhaupt noch 4er existieren
