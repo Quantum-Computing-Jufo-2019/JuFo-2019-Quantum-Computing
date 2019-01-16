@@ -1,4 +1,0 @@
-grottige Ergebnisse (3 von 2000 -8)
--> Hamiltonian richtig ? 
-Bei n=4 gute Ergebnisse , warum nicht auch hier ?
-zu wenige Durchläufe ?
