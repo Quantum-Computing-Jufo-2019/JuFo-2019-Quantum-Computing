@@ -18,6 +18,7 @@ import thread
 
 combobox_items =      ["N-Damen n=4","N-Damen n=5","N-Damen n=6","N-Damen n=7","N-Damen n=8","Knights Tour"]
 combobox_qubo_files = ["./Hamiltonians/qubomatrix_4_diagBesetzt.txt","./Hamiltonians/qubomatrix_5_diagBesetzt.txt","./Hamiltonians/qubomatrix_6_diagBesetzt.txt","./Hamiltonians/qubomatrix_7_diagBesetzt.txt","./Hamiltonians/qubomatrix_8_diagBesetzt.txt"]
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -47,18 +48,27 @@ def qubo(matrix_text_file,num_reads_times_hundred,annealing_time):
 	i = 0
 	for read in range(1,num_reads_times_hundred+1):
 		i = i+1
-		ui.progressBar.setProperty("value", ((read*reads_per_request / (num_reads_times_hundred*reads_per_request))*100))
+		#ui.progressBar.setProperty("value", ((read*reads_per_request / (num_reads_times_hundred*reads_per_request))*100))
+		qubo_progress = ((read*reads_per_request / (num_reads_times_hundred*reads_per_request))*100)
 		sampler = EmbeddingComposite(DWaveSampler())
 		responses.append(sampler.sample_qubo(qubo, num_reads=reads_per_request, annealing_time=annealing_time))
 
 		print('Saved result from request ',read,' in results.txt','   ',((i / (num_reads_times_hundred+0.0))*100))
-
+def update_progress_bar():
+	if qubo_progress != 100:
+		print(qubo_progress)
+		#ui.progressBar.setValue(qubo_progress)
+		app.processEvents()
+		update_progress_bar()
+	
 def start():
 	print("Durchläufe: "+str(ui.durchlaufe_slider.value()))
 	print("Annealing Time: "+str(ui.annealing_slider.value()))
 	print("Hamiltonian: "+str(combobox_items[ui.comboBox_2.currentIndex()]))
-	ui.progressBar.setVisible(True)
+	#ui.progressBar.setVisible(True)
+	ui.progressLabel.setVisible(True)
 	thread.start_new_thread(qubo,(combobox_qubo_files[ui.comboBox_2.currentIndex()],(ui.durchlaufe_slider.value()/100),ui.annealing_slider.value()))
+	#update_progress_bar()
 
 class Ui_JufoQubo(object):
     def setupUi(self, JufoQubo):
@@ -134,11 +144,18 @@ class Ui_JufoQubo(object):
         self.verticalLayout_3.addLayout(self.horizontalLayout_4)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem)
-        self.progressBar = QtGui.QProgressBar(self.verticalLayoutWidget)
-        self.progressBar.setProperty("value", 0)
-        self.progressBar.setObjectName(_fromUtf8("progressBar"))
-        self.progressBar.setVisible(False)
-        self.verticalLayout_3.addWidget(self.progressBar)
+        
+		self.progressLabel = QtGui.QLabel(self.verticalLayoutWidget)
+		self.progressLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTop|QtCore.Qt.AlignTrailing)
+		self.progressLabel.setObjectName(_fromUtf8("progressLabel"))
+        self.progressLabel.setVisible(False)
+        self.verticalLayout_3.addWidget(self.progressLabel)
+        
+        #self.progressBar = QtGui.QProgressBar(self.verticalLayoutWidget)
+        #self.progressBar.setProperty("value", 0)
+        #self.progressBar.setObjectName(_fromUtf8("progressBar"))
+        #self.progressBar.setVisible(False)
+        #self.verticalLayout_3.addWidget(self.progressBar)
         self.Start = QtGui.QPushButton(self.verticalLayoutWidget)
         self.Start.setCheckable(False)
         self.Start.setAutoDefault(False)
@@ -155,6 +172,7 @@ class Ui_JufoQubo(object):
 
     def retranslateUi(self, JufoQubo):
         JufoQubo.setWindowTitle(_translate("JufoQubo", "Jufo Qubo", None))
+        self.progressLabel.setText(_translate("JufoQubo", "Berechnung läuft", None))
         self.durchlaufe.setText(_translate("JufoQubo", "Durchläufe", None))
         self.annealingTime.setText(_translate("JufoQubo", "Annealing Time", None))
         self.durchlaufe_min.setText(_translate("JufoQubo", "1000", None))
@@ -171,7 +189,9 @@ if __name__ == "__main__":
     ui.setupUi(JufoQubo)
     JufoQubo.show()
     sys.exit(app.exec_())
-
+	
+qubo_progress = 0
+	
 		#for response in responses:
 			#for sample, energy, num_occurrences, cbf in response.record:
 				#file.write('%f\t%d\t%s' % (energy, num_occurrences, np.array2string(sample, max_line_width=None).replace('\n','')))
