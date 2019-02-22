@@ -41,7 +41,7 @@ max_reads = 20000
 max_annealing_time = 100
 
 def knights_tour_result_to_chess(result):
-	print("result="+str(result))
+	#print("result="+str(result))
 	convert = []
 	for i in range(10):
 		convert.append([[],[]])
@@ -56,26 +56,19 @@ def knights_tour_result_to_chess(result):
 	convert[3][1] = [2,3]
 	
 	chess = [[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
-	#for i in range(9):
-	#	for i in range(3):
-	#		chess[i].append([[],[],[]])
-	print(chess)
+	#print(chess)
 	result = result[1]
-	print("len="+str(len(result)))
+	#print("len="+str(len(result)))
 	for i in range(len(result)):
-		print("i="+str(i))
 		ebene = ((i /4) % 2)
 		pos = (i % 4)
-		print("ebene %2 ="+str(ebene))
-		print("ebene ="+str((i /4)))
-		print("pos="+str(pos))
+		#print("ebene %2 ="+str(ebene))
+		#print("ebene ="+str((i /4)))
+		#print("pos="+str(pos))
 		convert_value = convert[pos][ebene]
-		print("convert_value="+str(convert_value))
-		print("result[i]"+str(result[i]))
+		#print("convert_value="+str(convert_value))
+		#print("result[i]"+str(result[i]))
 		chess[int((i /4))][convert_value[0]-1][convert_value[1]-1] = result[i]
-	print(chess)
-	#for i in result:	
-	#print(result
 	return(chess)
 
 def qubo(matrix_text_file,num_reads_times_hundred,annealing_time,n,chess_n,best_result,diag_frei,type):
@@ -89,7 +82,8 @@ def qubo(matrix_text_file,num_reads_times_hundred,annealing_time,n,chess_n,best_
 	        qubo[index] = value
 
 	responses = []
-
+	
+	print("Sende an Quantencomputer in Kanada")
 	print("0.0%")
 	i = 0
 	for read in range(1,num_reads_times_hundred+1):
@@ -132,11 +126,10 @@ def qubo(matrix_text_file,num_reads_times_hundred,annealing_time,n,chess_n,best_
 				for x in range(len(chess[ebene][y])):
 					if chess[ebene][y][x] == 1:
 						spruenge.append([x,y])
-					#ui.results_table.setItem(y,x,QTableWidgetItem(str(chess[ebene][y][x])));
 		print("spruenge="+str(spruenge))
 		for x in range(3):
 			for y in range(3):
-				ui.results_table.setItem(y,x,QTableWidgetItem("0"));
+				ui.results_table.setItem(y,x,QTableWidgetItem(""));
 		
 		for sprung in range(len(spruenge)):
 			ui.results_table.setItem(spruenge[sprung][1],spruenge[sprung][0],QTableWidgetItem(str(sprung+1)))
@@ -147,13 +140,13 @@ def qubo(matrix_text_file,num_reads_times_hundred,annealing_time,n,chess_n,best_
 	switch_side_to(3)
 
 def start():
+	print("")
 	hamiltonian_select_index = ui.hamiltonian_select.currentIndex()
 	print("Durchläufe: "+str(ui.durchlaufe_slider.value()))
 	print("Annealing Time: "+str(ui.annealing_slider.value()))
 	print("Hamiltonian: "+str(combobox_items[hamiltonian_select_index]))
 	print("Diagonale Frei: "+str(combobox_diag_frei[hamiltonian_select_index]))
 	ui.berechnung_lauft.setVisible(True)
-	#thread.start_new_thread(qubo,(combobox_qubo_files[ui.hamiltonian_select.currentIndex()],(ui.durchlaufe_slider.value()/reads_per_request),ui.annealing_slider.value()))
 	ui.results_table.setRowCount(combobox_chess_n[hamiltonian_select_index])
 	ui.results_table.setColumnCount(combobox_chess_n[hamiltonian_select_index])
 	qubo(combobox_qubo_files[hamiltonian_select_index],(ui.durchlaufe_slider.value()/reads_per_request),ui.annealing_slider.value(),combobox_n[hamiltonian_select_index],combobox_chess_n[hamiltonian_select_index],combobox_optimal[hamiltonian_select_index],combobox_diag_frei[hamiltonian_select_index],combobox_type[hamiltonian_select_index])
@@ -345,7 +338,7 @@ class Ui_JufoQubo(object):
         self.label.setText(_translate("JufoQubo", "Copyright: Jonthan Treffler , Jakov D. Wallbrecher , Paul Schappert , 2019", None))
         self.button_to_side_1.setText(_translate("JufoQubo", "weiter", None))
         self.infos_bales_side_1.setText(_translate("JufoQubo", "Folgendes wird als nächstes ausgeführt:", None))
-        self.label_2.setText(_translate("JufoQubo", "1. Hamiltonian generieren (mit einem Java Programm)", None))
+        self.label_2.setText(_translate("JufoQubo", "1. Hamiltonian generieren (mit einem Java Programm) (nicht live)", None))
         self.label_3.setText(_translate("JufoQubo", "2. Hamiltonian in Chimera Graph umformen", None))
         self.label_4.setText(_translate("JufoQubo", "3. Senden der Daten über das Internet zum Quantencomputer in Kanada", None))
         self.label_5.setText(_translate("JufoQubo", "4. Ergebnisse zurück übertragen und auswerten", None))
