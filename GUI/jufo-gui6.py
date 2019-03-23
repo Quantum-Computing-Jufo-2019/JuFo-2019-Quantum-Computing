@@ -23,12 +23,14 @@ from array import *
 import thread
 import math
 import time
+import sched
+from threading import Timer
 
 #Vars
-progress = 0
+finished = 0
 
 min_reads = 1000
-max_reads = 10000
+max_reads = 100000
 min_annealing_time = 20
 max_annealing_time = 500
 min_chain_strength = 1
@@ -175,6 +177,14 @@ class Ui_MainWindow(object):
         self.runs_min_label = QtGui.QLabel(self.verticalLayoutWidget_9)
         self.runs_min_label.setObjectName(_fromUtf8("runs_min_label"))
         self.horizontalLayout_runs.addWidget(self.runs_min_label)
+        self.runs_label = QtGui.QLabel(self.verticalLayoutWidget_9)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.runs_label.setFont(font)
+        self.runs_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.runs_label.setObjectName(_fromUtf8("runs_label"))
+        self.horizontalLayout_runs.addWidget(self.runs_label)
         self.runs_max_label = QtGui.QLabel(self.verticalLayoutWidget_9)
         self.runs_max_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.runs_max_label.setObjectName(_fromUtf8("runs_max_label"))
@@ -194,6 +204,14 @@ class Ui_MainWindow(object):
         self.annealing_time_min = QtGui.QLabel(self.verticalLayoutWidget_9)
         self.annealing_time_min.setObjectName(_fromUtf8("annealing_time_min"))
         self.horizontalLayout_3.addWidget(self.annealing_time_min)
+        self.annealing_time_label = QtGui.QLabel(self.verticalLayoutWidget_9)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.annealing_time_label.setFont(font)
+        self.annealing_time_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.annealing_time_label.setObjectName(_fromUtf8("annealing_time_label"))
+        self.horizontalLayout_3.addWidget(self.annealing_time_label)
         self.annealing_time_max = QtGui.QLabel(self.verticalLayoutWidget_9)
         self.annealing_time_max.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.annealing_time_max.setObjectName(_fromUtf8("annealing_time_max"))
@@ -205,6 +223,7 @@ class Ui_MainWindow(object):
         self.chain_strength_slider = QtGui.QSlider(self.verticalLayoutWidget_9)
         self.chain_strength_slider.setMinimum(1)
         self.chain_strength_slider.setMaximum(25)
+        self.chain_strength_slider.setProperty("value", 1)
         self.chain_strength_slider.setOrientation(QtCore.Qt.Horizontal)
         self.chain_strength_slider.setObjectName(_fromUtf8("chain_strength_slider"))
         self.verticalLayout.addWidget(self.chain_strength_slider)
@@ -213,6 +232,14 @@ class Ui_MainWindow(object):
         self.chain_strength_min = QtGui.QLabel(self.verticalLayoutWidget_9)
         self.chain_strength_min.setObjectName(_fromUtf8("chain_strength_min"))
         self.horizontalLayout.addWidget(self.chain_strength_min)
+        self.chain_strength_label = QtGui.QLabel(self.verticalLayoutWidget_9)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.chain_strength_label.setFont(font)
+        self.chain_strength_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.chain_strength_label.setObjectName(_fromUtf8("chain_strength_label"))
+        self.horizontalLayout.addWidget(self.chain_strength_label)
         self.chain_strength_max = QtGui.QLabel(self.verticalLayoutWidget_9)
         self.chain_strength_max.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.chain_strength_max.setObjectName(_fromUtf8("chain_strength_max"))
@@ -270,7 +297,7 @@ class Ui_MainWindow(object):
         self.n_queens_options_side = QtGui.QWidget()
         self.n_queens_options_side.setObjectName(_fromUtf8("n_queens_options_side"))
         self.verticalLayoutWidget_6 = QtGui.QWidget(self.n_queens_options_side)
-        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(-1, 19, 681, 471))
+        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(-1, 9, 681, 481))
         self.verticalLayoutWidget_6.setObjectName(_fromUtf8("verticalLayoutWidget_6"))
         self.verticalLayout_options_side_0 = QtGui.QVBoxLayout(self.verticalLayoutWidget_6)
         self.verticalLayout_options_side_0.setMargin(0)
@@ -328,6 +355,23 @@ class Ui_MainWindow(object):
         self.sudoku_options_table.verticalHeader().setHighlightSections(True)
         self.verticalLayout_options_side_2.addWidget(self.sudoku_options_table)
         self.stackedWidget_2.addWidget(self.sudoku_options_side)
+        self.amazone_options_side = QtGui.QWidget()
+        self.amazone_options_side.setObjectName(_fromUtf8("amazone_options_side"))
+        self.verticalLayoutWidget_12 = QtGui.QWidget(self.amazone_options_side)
+        self.verticalLayoutWidget_12.setGeometry(QtCore.QRect(-1, 9, 681, 481))
+        self.verticalLayoutWidget_12.setObjectName(_fromUtf8("verticalLayoutWidget_12"))
+        self.verticalLayout_6 = QtGui.QVBoxLayout(self.verticalLayoutWidget_12)
+        self.verticalLayout_6.setMargin(0)
+        self.verticalLayout_6.setObjectName(_fromUtf8("verticalLayout_6"))
+        self.amazone_options_headline = QtGui.QLabel(self.verticalLayoutWidget_12)
+        self.amazone_options_headline.setObjectName(_fromUtf8("amazone_options_headline"))
+        self.verticalLayout_6.addWidget(self.amazone_options_headline)
+        self.amazone_n_select = QtGui.QComboBox(self.verticalLayoutWidget_12)
+        self.amazone_n_select.setObjectName(_fromUtf8("amazone_n_select"))
+        self.verticalLayout_6.addWidget(self.amazone_n_select)
+        spacerItem7 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem7)
+        self.stackedWidget_2.addWidget(self.amazone_options_side)
         self.verticalLayout_side_6.addWidget(self.stackedWidget_2)
         self.next_button_side_6 = QtGui.QPushButton(self.verticalLayoutWidget_5)
         self.next_button_side_6.setObjectName(_fromUtf8("next_button_side_6"))
@@ -342,6 +386,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_side_7.setMargin(0)
         self.verticalLayout_side_7.setObjectName(_fromUtf8("verticalLayout_side_7"))
         self.headline_side7 = QtGui.QLabel(self.verticalLayoutWidget_8)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.headline_side7.setFont(font)
         self.headline_side7.setAlignment(QtCore.Qt.AlignCenter)
         self.headline_side7.setObjectName(_fromUtf8("headline_side7"))
         self.verticalLayout_side_7.addWidget(self.headline_side7)
@@ -403,21 +451,25 @@ class Ui_MainWindow(object):
         self.headline_side_4.setText(_translate("MainWindow", "Solver Parameter", None))
         self.runs_headline.setText(_translate("MainWindow", "Runs", None))
         self.runs_min_label.setText(_translate("MainWindow", "1000", None))
+        self.runs_label.setText(_translate("MainWindow", "0", None))
         self.runs_max_label.setText(_translate("MainWindow", "10000", None))
         self.annealing_time_headline.setText(_translate("MainWindow", "Annealing Time", None))
         self.annealing_time_min.setText(_translate("MainWindow", "20", None))
+        self.annealing_time_label.setText(_translate("MainWindow", "0", None))
         self.annealing_time_max.setText(_translate("MainWindow", "80", None))
         self.chain_strength_headline.setText(_translate("MainWindow", "Chain Strength", None))
         self.chain_strength_min.setText(_translate("MainWindow", "1", None))
+        self.chain_strength_label.setText(_translate("MainWindow", "0", None))
         self.chain_strength_max.setText(_translate("MainWindow", "25", None))
         self.next_button_side_4.setText(_translate("MainWindow", "weiter", None))
         self.headline_side_5.setText(_translate("MainWindow", "Optimierungsproblem auswählen", None))
         self.next_button_side_5.setText(_translate("MainWindow", "weiter", None))
         self.headline_side_6.setText(_translate("MainWindow", "Optionen für Optimierungsproblem", None))
-        self.n_queens_options_headline.setText(_translate("MainWindow", "N-Damen Optionen", None))
+        self.n_queens_options_headline.setText(_translate("MainWindow", "N-Damen Optionen:", None))
         self.knights_tour_options_headline.setText(_translate("MainWindow", "Knights Tour Optionen:", None))
         self.knights_tour_no_options_label.setText(_translate("MainWindow", "keine Einstellungen benötigt", None))
         self.sudoku_options_headline.setText(_translate("MainWindow", "Sudoku Optionen:", None))
+        self.amazone_options_headline.setText(_translate("MainWindow", "Amazone Optionen:", None))
         self.next_button_side_6.setText(_translate("MainWindow", "start", None))
         self.headline_side7.setText(_translate("MainWindow", "Ergebnisse", None))
         self.result_energy.setText(_translate("MainWindow", "Energie:", None))
@@ -428,8 +480,13 @@ class Ui_MainWindow(object):
         self.request_save_to_file.setText(_translate("MainWindow", "Alle Ergebnisse in Datei speichern", None))
         self.next_button_side_7.setText(_translate("MainWindow", "zum Start", None))
 
+
 def next_button():
 		ui.stackedWidget.setCurrentIndex(ui.stackedWidget.currentIndex()+1)
+def start_button():
+	#Timer(1, start, ()).start()
+	start()
+	next_button()
 def switch_options_side():
 	ui.stackedWidget_2.setCurrentIndex(ui.problem_select.currentIndex())
 	next_button()
@@ -441,12 +498,14 @@ def custom_ui():
 	ui.next_button_side_3.clicked.connect(next_button)
 	ui.next_button_side_4.clicked.connect(next_button)
 	ui.next_button_side_5.clicked.connect(switch_options_side)
-	ui.next_button_side_6.clicked.connect(start)
+	#ui.next_button_side_6.clicked.connect(start)
+	ui.next_button_side_6.clicked.connect(start_button)
 	ui.next_button_side_7.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(0))
 	
 	ui.solver_select.addItems(solvers)
 	ui.problem_select.addItems(qubo_problems)
 	ui.n_queens_n_select.addItems(n_queens_options)
+	ui.amazone_n_select.addItems(amazone_options)
 	
 	ui.runs_slider.setMinimum(min_reads)
 	ui.runs_min_label.setText(_translate("MainWindow", str(min_reads), None))
@@ -462,6 +521,15 @@ def custom_ui():
 	ui.chain_strength_min.setText(_translate("MainWindow", str(min_chain_strength), None))
 	ui.chain_strength_slider.setMaximum(max_chain_strength)
 	ui.chain_strength_max.setText(_translate("MainWindow", str(max_chain_strength), None))
+	
+	ui.runs_label.setText(str(ui.runs_slider.value()))
+	ui.runs_slider.valueChanged.connect(lambda: ui.runs_label.setText(str(ui.runs_slider.value())))
+	
+	ui.annealing_time_label.setText(str(ui.annealing_time_slider.value()))
+	ui.annealing_time_slider.valueChanged.connect(lambda: ui.annealing_time_label.setText(str(ui.annealing_time_slider.value())))
+	
+	ui.chain_strength_label.setText(str(ui.chain_strength_slider.value()))
+	ui.chain_strength_slider.valueChanged.connect(lambda: ui.chain_strength_label.setText(str(ui.chain_strength_slider.value())))
 
 #Solvers
 class solver:
@@ -537,26 +605,24 @@ class pegasus(solver):
 
 #Problems
 class qubo_problem():
-	def set_options(self,n,diag_free):
-		print("This schould not be called")
 	def get_best_energy():
 		print("This schould not be called")
 	def get_matrix():
 		print("This schould not be called")
+	def result_to_table(self,result):
+		print("This schould not be called")
 		
 class n_queens(qubo_problem):
 	def __init__(self,n,diag_free):
-		self.set_options(n,diag_free)
-	def set_options(self,n,diag_free):
 		self.n =n
 		self.diag_free = diag_free
 	def get_best_energy(self):
 		return self.n*-2
 	def get_matrix(self):
 		if self.diag_free:
-			return np.loadtxt("./Hamiltonians/qubomatrix_"+str(self.n)+"_diagFrei.txt")
+			return np.loadtxt("./Hamiltonians/n_queens/qubomatrix_"+str(self.n)+"_diagFrei.txt")
 		else:
-			return np.loadtxt("./Hamiltonians/qubomatrix_"+str(self.n)+"_diagBesetzt.txt")
+			return np.loadtxt("./Hamiltonians/n_queens/qubomatrix_"+str(self.n)+"_diagBesetzt.txt")
 	def result_to_table(self,result):
 		table = []
 		if self.diag_free:
@@ -577,7 +643,7 @@ class knights_tour(qubo_problem):
 	def get_best_energy(self):
 		return -14
 	def get_matrix(self):
-		return np.loadtxt("./Hamiltonians/qubomatrix_roesslesprung.txt")
+		return np.loadtxt("./Hamiltonians/knights_tour/qubomatrix_roesslesprung.txt")
 	def result_to_table(self,result):
 		#Wandelt in Ebenen um
 		convert = []
@@ -628,9 +694,23 @@ class knights_tour(qubo_problem):
 			y = spruenge[sprung][1]
 			table[x][y] = sprung+1
 		return table
-
+class amazone(qubo_problem):
+	def __init__(self,n):
+		self.n = n
+	def get_best_energy(self):
+		return self.n*-1
+	def get_matrix(self):
+		return np.loadtxt("./Hamiltonians/amazone/amazone_"+str(self.n)+".txt")
+	def result_to_table(self,result):
+		table = []
+		for y in range(self.n):
+			table.append([])
+			for x in range(self.n):
+				table[y].append(result[(y*self.n)+x])
+		return table
 #Functions
 def save_results_in_file(result,text_file_name):
+	print("saving")
 	with open(text_file_name+".txt",'w') as file:
 		file.write('energy\tnum_occurrences\tsample\n')
 		for response in result:
@@ -645,6 +725,7 @@ def set_table_to_array(table,array):
 			table.setItem(y,x,QTableWidgetItem(str(array[y][x])));
 def start():
 	print("Start")
+	
 	start_time = time.time()
 	solver = solver_classes[ui.solver_select.currentIndex()]
 	if ui.problem_select.currentIndex() == 0:
@@ -652,8 +733,9 @@ def start():
 	elif ui.problem_select.currentIndex() == 1:
 		qubo_problem = knights_tour()
 	elif ui.problem_select.currentIndex() == 2:
-		#Sudoku
+		print("sudoku")
 	elif ui.problem_select.currentIndex() == 3:
+		qubo_problem = amazone_options_classes[ui.amazone_n_select.currentIndex()]
 	runs = ui.runs_slider.value()
 	annealing_time = ui.annealing_time_slider.value()
 	chain_strength = ui.chain_strength_slider.value()
@@ -670,15 +752,17 @@ def start():
 	ui.number_same_results.setText(_translate("MainWindow", "Anzahl gleicher Ergebnisse: "+str(result[0][2]), None))
 	ui.request_duration.setText(_translate("MainWindow", "Dauer: "+str(end_time - start_time)+" Sekunden", None))
 	
+	try: ui.request_save_to_file.clicked.disconnect() 
+	except Exception: pass
 	ui.request_save_to_file.clicked.connect(lambda: save_results_in_file(result,"results"))
 	
-	next_button()
-
 solvers = ["Quantencomputer","Pegasus Graph"]
 solver_classes = [quantumcomputer(),pegasus()]
 qubo_problems = ["N Damen","Knights Tour","Sudoku","Grossvisier"]
 n_queens_options = ["n=4","n=5","n=6","n=7","n=8","n=8 (mit Trick)"]
 n_queens_options_classes = [n_queens(4,False),n_queens(5,False),n_queens(6,False),n_queens(7,False),n_queens(8,False),n_queens(7,True)]
+amazone_options = ["n=4","n=5","n=6","n=7"]
+amazone_options_classes = [amazone(4),amazone(5),amazone(6),amazone(7)]
 
 if __name__ == "__main__":
     import sys

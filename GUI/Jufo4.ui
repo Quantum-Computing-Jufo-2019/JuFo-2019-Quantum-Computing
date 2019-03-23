@@ -33,7 +33,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>6</number>
        </property>
        <widget class="QWidget" name="page_1">
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -277,6 +277,22 @@
              </widget>
             </item>
             <item>
+             <widget class="QLabel" name="runs_label">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="runs_max_label">
               <property name="text">
                <string>10000</string>
@@ -314,6 +330,22 @@
              <widget class="QLabel" name="annealing_time_min">
               <property name="text">
                <string>20</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="annealing_time_label">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -358,6 +390,22 @@
              <widget class="QLabel" name="chain_strength_min">
               <property name="text">
                <string>1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="chain_strength_label">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -498,7 +546,7 @@
                <item>
                 <widget class="QLabel" name="n_queens_options_headline">
                  <property name="text">
-                  <string>N-Damen Optionen</string>
+                  <string>N-Damen Optionen:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -633,6 +681,43 @@
                  <column/>
                  <column/>
                 </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="amazone_options_side">
+             <widget class="QWidget" name="verticalLayoutWidget_12">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>9</y>
+                <width>681</width>
+                <height>481</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <widget class="QLabel" name="amazone_options_headline">
+                 <property name="text">
+                  <string>Amazone Optionen:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="amazone_n_select"/>
+               </item>
+               <item>
+                <spacer name="amazone_options_spacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </widget>
