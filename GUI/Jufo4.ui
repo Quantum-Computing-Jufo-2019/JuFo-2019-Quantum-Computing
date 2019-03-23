@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Jufo Qubo</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget_10">
@@ -33,7 +33,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="page_1">
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -180,6 +180,12 @@
          <layout class="QVBoxLayout" name="verticalLayout_side_3">
           <item>
            <widget class="QLabel" name="headline_side_3">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
              <string>Solver auswählen</string>
             </property>
@@ -225,6 +231,22 @@
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLabel" name="headline_side_4">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Solver Parameter</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QLabel" name="runs_headline">
             <property name="text">
@@ -322,6 +344,9 @@
             <property name="maximum">
              <number>25</number>
             </property>
+            <property name="value">
+             <number>1</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -384,6 +409,12 @@
          <layout class="QVBoxLayout" name="verticalLayout_side_5">
           <item>
            <widget class="QLabel" name="headline_side_5">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
              <string>Optimierungsproblem auswählen</string>
             </property>
@@ -423,9 +454,9 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>10</y>
+           <y>20</y>
            <width>681</width>
-           <height>561</height>
+           <height>551</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_side_6">
@@ -434,6 +465,12 @@
           </property>
           <item>
            <widget class="QLabel" name="headline_side_6">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
              <string>Optionen für Optimierungsproblem</string>
             </property>
@@ -452,17 +489,27 @@
               <property name="geometry">
                <rect>
                 <x>-1</x>
-                <y>29</y>
+                <y>9</y>
                 <width>681</width>
-                <height>501</height>
+                <height>481</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_options_side_0">
                <item>
+                <widget class="QLabel" name="n_queens_options_headline">
+                 <property name="text">
+                  <string>N-Damen Optionen</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QComboBox" name="n_queens_n_select"/>
                </item>
                <item>
-                <spacer name="verticalSpacer_2">
+                <spacer name="n_queens_options_spacer">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -477,18 +524,76 @@
               </layout>
              </widget>
             </widget>
-            <widget class="QWidget" name="knights_tour_options_side"/>
+            <widget class="QWidget" name="knights_tour_options_side">
+             <widget class="QWidget" name="verticalLayoutWidget_11">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>19</y>
+                <width>681</width>
+                <height>471</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <widget class="QLabel" name="knights_tour_options_headline">
+                 <property name="text">
+                  <string>Knights Tour Optionen:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="knights_tour_no_options_label">
+                 <property name="font">
+                  <font>
+                   <italic>true</italic>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>keine Einstellungen benötigt</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="knights_tour_options_spacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
             <widget class="QWidget" name="sudoku_options_side">
              <widget class="QWidget" name="verticalLayoutWidget_7">
               <property name="geometry">
                <rect>
-                <x>9</x>
+                <x>-1</x>
                 <y>19</y>
-                <width>661</width>
-                <height>481</height>
+                <width>681</width>
+                <height>471</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_options_side_2">
+               <item>
+                <widget class="QLabel" name="sudoku_options_headline">
+                 <property name="text">
+                  <string>Sudoku Optionen:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <widget class="QTableWidget" name="sudoku_options_table">
                  <property name="rowCount">
@@ -499,6 +604,9 @@
                  </property>
                  <attribute name="horizontalHeaderVisible">
                   <bool>false</bool>
+                 </attribute>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>30</number>
                  </attribute>
                  <attribute name="verticalHeaderVisible">
                   <bool>false</bool>
@@ -532,9 +640,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="next_buton_side_6">
+           <widget class="QPushButton" name="next_button_side_6">
             <property name="text">
-             <string>weiter</string>
+             <string>start</string>
             </property>
            </widget>
           </item>
@@ -554,11 +662,52 @@
          <layout class="QVBoxLayout" name="verticalLayout_side_7">
           <item>
            <widget class="QLabel" name="headline_side7">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
              <string>Ergebnisse</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="result_energy">
+            <property name="text">
+             <string>Energie:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="result_best_energy">
+            <property name="text">
+             <string>beste Energie:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="number_same_results">
+            <property name="text">
+             <string>Anzahl gleicher Ergebnisse:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="result_requests">
+            <property name="text">
+             <string>Requests: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="request_duration">
+            <property name="text">
+             <string>Dauer: </string>
             </property>
            </widget>
           </item>
@@ -575,6 +724,22 @@
             </property>
             <property name="dragDropOverwriteMode">
              <bool>false</bool>
+            </property>
+            <attribute name="horizontalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>30</number>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="request_save_to_file">
+            <property name="text">
+             <string>Alle Ergebnisse in Datei speichern</string>
             </property>
            </widget>
           </item>
