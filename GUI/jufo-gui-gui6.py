@@ -1,32 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore, QtGui 
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
-import numpy as np
+# Form implementation generated from reading ui file 'Jufo4.ui'
+#
+# Created by: PyQt4 UI code generator 4.12.1
+#
+# WARNING! All changes made in this file will be lost!
 
-from functools import partial
-
-import sys
-
-from dwave.system.samplers import DWaveSampler
-from dwave.system.composites import EmbeddingComposite
-from dwave.system import EmbeddingComposite, LazyFixedEmbeddingComposite
-
-import neal
-import dimod
-import dwave_networkx as dnx
-import networkx as nx
-import dwave.embedding
-
-from array import *
-import thread
-import math
-
-#Vars
-progress = 0
-
-#GUI
+from PyQt4 import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -274,9 +254,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_options_side_2.addWidget(self.sudoku_options_table)
         self.stackedWidget_2.addWidget(self.sudoku_options_side)
         self.verticalLayout_side_6.addWidget(self.stackedWidget_2)
-        self.next_button_side_6 = QtGui.QPushButton(self.verticalLayoutWidget_5)
-        self.next_button_side_6.setObjectName(_fromUtf8("next_button_side_6"))
-        self.verticalLayout_side_6.addWidget(self.next_button_side_6)
+        self.next_buton_side_6 = QtGui.QPushButton(self.verticalLayoutWidget_5)
+        self.next_buton_side_6.setObjectName(_fromUtf8("next_buton_side_6"))
+        self.verticalLayout_side_6.addWidget(self.next_buton_side_6)
         self.stackedWidget.addWidget(self.page_6)
         self.page_7 = QtGui.QWidget()
         self.page_7.setObjectName(_fromUtf8("page_7"))
@@ -337,191 +317,10 @@ class Ui_MainWindow(object):
         self.headline_side_5.setText(_translate("MainWindow", "Optimierungsproblem auswählen", None))
         self.next_button_side_5.setText(_translate("MainWindow", "weiter", None))
         self.headline_side_6.setText(_translate("MainWindow", "Optionen für Optimierungsproblem", None))
-        self.next_button_side_6.setText(_translate("MainWindow", "weiter", None))
+        self.next_buton_side_6.setText(_translate("MainWindow", "weiter", None))
         self.headline_side7.setText(_translate("MainWindow", "Ergebnisse", None))
         self.next_button_side_7.setText(_translate("MainWindow", "zum Start", None))
 
-def custom_ui():
-	def next_button():
-		ui.stackedWidget.setCurrentIndex(ui.stackedWidget.currentIndex()+1)
-	ui.next_button_side_1.clicked.connect(next_button)
-	ui.next_button_side_2.clicked.connect(next_button)
-	ui.next_button_side_3.clicked.connect(next_button)
-	ui.next_button_side_4.clicked.connect(next_button)
-	ui.next_button_side_5.clicked.connect(next_button)
-	ui.next_button_side_6.clicked.connect(next_button)
-	ui.next_button_side_7.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(0))
-
-#Solvers
-class solver:
-	def solve(self,qubomatrix,runs,annealing_time,chain_strength):
-		print("This schould not be called")
-	def convert_to_qubo():
-		print("This schould not be called")
-
-class quantumcomputer(solver):
-	def convert_to_qubo(self,qubomatrix):
-		qubo = {}
-		for index,value in np.ndenumerate(qubomatrix):
-			if value != 0:
-				qubo[index] = value
-		return qubo
-	def solve(self,qubomatrix,num_reads,annealing_time,chain_strength):
-		qubo = self.convert_to_qubo(qubomatrix)
-		responses = []
-		
-		progress = 0
-		
-		dwave_user_max_time = 900000.0
-		
-		if num_reads*annealing_time > dwave_user_max_time:
-			num_reads_per_request = math.trunc(dwave_user_max_time/annealing_time)
-			number_of_requests = number_of_requests = int((num_reads*1.0)/num_reads_per_request)
-		else:
-			num_reads_per_request = num_reads;
-			number_of_requests = 1
-		
-		print(num_reads_per_request)
-		print(number_of_requests)
-		
-		i = 0
-		for read in range(0,int(number_of_requests)):
-			sampler = EmbeddingComposite(DWaveSampler())
-			response = sampler.sample_qubo(qubo, num_reads=num_reads_per_request, annealing_time=annealing_time, chain_strength=chain_strength)
-			responses.append(response);
-		
-		results = []
-	
-		for response in responses:
-			for sample, energy, num_occurrences, cbf in response.record:
-				results.append([energy,sample,num_occurrences])
-				
-		results = sorted(results, key=lambda x: x[0], reverse=False)
-		return results
-
-class pegasus(solver):
-	def convert_to_qubo(self,qubomatrix):
-		qubo = {(i,i):0.0 for i in range(len(qubomatrix))}
-		for index,value in np.ndenumerate(qubomatrix):
-			if value != 0:
-				qubo[index] = value
-		return qubo
-	def solve(self,qubomatrix,num_reads,annealing_time,chain_strength):
-		qubo = self.convert_to_qubo(qubomatrix)
-		
-		graph = dnx.pegasus_graph(16)
-		simulator = neal.SimulatedAnnealingSampler()
-		composite = dimod.StructureComposite(simulator, graph.nodes, graph.edges)
-		sampler = LazyFixedEmbeddingComposite(composite)
-		
-		response = sampler.sample_qubo(qubo, num_reads=num_reads, chain_strength=chain_strength)
-		
-		results = []
-		
-		for sample, energy, num_occurrences, cbf in response.record:
-				results.append([energy,sample,num_occurrences])
-				
-		results = sorted(results, key=lambda x: x[0], reverse=False)
-		return results
-
-#Problems
-class qubo_problem():
-	def set_options(self,n,diag_free):
-		print("This schould not be called")
-	def get_max_energy():
-		print("This schould not be called")
-	def get_matrix():
-		print("This schould not be called")
-		
-class n_queens(qubo_problem):
-	def set_options(self,n,diag_free):
-		self.n =n
-		self.diag_free = diag_free
-	def get_max_energy(self):
-		return self.n*-2
-	def get_matrix(self):
-		if self.diag_free:
-			return np.loadtxt("./Hamiltonians/qubomatrix_"+str(self.n)+"_diagFrei.txt")
-		else:
-			return np.loadtxt("./Hamiltonians/qubomatrix_"+str(self.n)+"_diagBesetzt.txt")
-	def result_to_table(self,result):
-		print(result)
-		table = []
-		for y in range(self.n):
-			table.append([])
-			for x in range(self.n):
-				table[y].append(result[(y*self.n)+x])
-		return table
-class knights_tour(qubo_problem):
-	def get_max_energy(self):
-		return -14
-	def get_matrix(self):
-		return np.loadtxt("./Hamiltonians/qubomatrix_roesslesprung.txt")
-	def result_to_table(self,result):
-		#Wandelt in Ebenen um
-		convert = []
-		for i in range(10):
-			convert.append([[],[]])
-		#      POS EBENE
-		convert[0][0] = [1,1]
-		convert[1][0] = [3,1]
-		convert[2][0] = [1,3]
-		convert[3][0] = [3,3]
-		convert[0][1] = [2,1]
-		convert[1][1] = [3,2]
-		convert[2][1] = [1,2]
-		convert[3][1] = [2,3]
-		
-		chess = []
-		for i in range(9):
-			chess.append([])
-			for o in range(3):
-				chess[i].append([])
-				for p in range(3):
-					chess[i][o].append(0)
-				
-		for i in range(len(result)):
-			ebene = ((i /4) % 2)
-			pos = (i % 4)
-			convert_value = convert[pos][ebene]
-			chess[int((i /4))][convert_value[0]-1][convert_value[1]-1] = result[i]
-
-		#Fasst Ebenen zusammen
-		spruenge = []
-		
-		for ebene in range(len(chess)):
-			for y in range(len(chess[ebene])):
-				for x in range(len(chess[ebene][y])):
-					if chess[ebene][y][x] == 1:
-						spruenge.append([x,y])
-		
-		#Bilde auf Tabelle ab
-		table = []
-		for i in range(3):
-			table.append([])
-			for o in range(3):
-				table[i].append("")
-		
-		for sprung in range(len(spruenge)):
-			x = spruenge[sprung][0]
-			y = spruenge[sprung][1]
-			table[x][y] = sprung+1
-		return table
-
-#Functions
-def save_results_in_file(result,text_file_name):
-	with open(text_file_name+".txt",'w') as file:
-		file.write('energy\tnum_occurrences\tsample\n')
-		for response in result:
-			file.write('%f\t%d\t%s\n' % (response[0], response[2], response[1]))
-
-solver = quantumcomputer()
-problem = knights_tour()
-#problem.set_options(4,False)
-#print(problem.result_to_table(solver.solve(problem.get_matrix(),1000,40,7)[0][1]))
-result = solver.solve(np.loadtxt("qubomatrix 4 sehr schwer.txt"),10000,500,30)
-print(result)
-save_results_in_file(result,"results")
 
 if __name__ == "__main__":
     import sys
@@ -530,5 +329,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    custom_ui()
     sys.exit(app.exec_())
+
