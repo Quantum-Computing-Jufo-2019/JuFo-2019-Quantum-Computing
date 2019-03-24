@@ -25,9 +25,10 @@ import math
 import time
 import sched
 from threading import Timer
+import warnings
 
 #Vars
-finished = 0
+result = 0
 
 min_reads = 1000
 max_reads = 100000
@@ -484,9 +485,18 @@ class Ui_MainWindow(object):
 def next_button():
 		ui.stackedWidget.setCurrentIndex(ui.stackedWidget.currentIndex()+1)
 def start_button():
-	#Timer(1, start, ()).start()
-	start()
+	#try: ui.request_save_to_file.clicked.disconnect() 
+	#except Exception: pass
+	ui.results_table.setColumnCount(0)
+	ui.results_table.setRowCount(0)
+	ui.result_energy.setText(_translate("MainWindow", "Energie:", None))
+	ui.result_best_energy.setText(_translate("MainWindow", "beste Energie:", None))
+	ui.number_same_results.setText(_translate("MainWindow", "Anzahl gleicher Ergebnisse:", None))
+	ui.result_requests.setText(_translate("MainWindow", "Requests: ", None))
+	ui.request_duration.setText(_translate("MainWindow", "Dauer: ", None))
+	Timer(1, start, ()).start()
 	next_button()
+	#start()
 def switch_options_side():
 	ui.stackedWidget_2.setCurrentIndex(ui.problem_select.currentIndex())
 	next_button()
@@ -498,7 +508,6 @@ def custom_ui():
 	ui.next_button_side_3.clicked.connect(next_button)
 	ui.next_button_side_4.clicked.connect(next_button)
 	ui.next_button_side_5.clicked.connect(switch_options_side)
-	#ui.next_button_side_6.clicked.connect(start)
 	ui.next_button_side_6.clicked.connect(start_button)
 	ui.next_button_side_7.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(0))
 	
@@ -530,6 +539,10 @@ def custom_ui():
 	
 	ui.chain_strength_label.setText(str(ui.chain_strength_slider.value()))
 	ui.chain_strength_slider.valueChanged.connect(lambda: ui.chain_strength_label.setText(str(ui.chain_strength_slider.value())))
+	
+	ui.request_save_to_file.clicked.connect(save_results_in_file)
+	
+	warnings.filterwarnings("ignore", message="The Pegasus topology produced by this generator with default parameters is one member of a large family of topologies under consideration, and may not be reflected in future products")
 
 #Solvers
 class solver:
@@ -709,9 +722,9 @@ class amazone(qubo_problem):
 				table[y].append(result[(y*self.n)+x])
 		return table
 #Functions
-def save_results_in_file(result,text_file_name):
+def save_results_in_file():
 	print("saving")
-	with open(text_file_name+".txt",'w') as file:
+	with open("results.txt",'w') as file:
 		file.write('energy\tnum_occurrences\tsample\n')
 		for response in result:
 			file.write('%f\t%d\t%s' % (response[0], response[2], np.array2string(response[1], max_line_width=None).replace('\n','')))
@@ -724,6 +737,7 @@ def set_table_to_array(table,array):
 		for x in range(len(array[y])):
 			table.setItem(y,x,QTableWidgetItem(str(array[y][x])));
 def start():
+	global result
 	print("Start")
 	
 	start_time = time.time()
@@ -751,10 +765,7 @@ def start():
 	ui.result_requests.setText(_translate("MainWindow", "Requests: "+str(solver.number_of_requests)+"x"+str(solver.num_reads_per_request), None))
 	ui.number_same_results.setText(_translate("MainWindow", "Anzahl gleicher Ergebnisse: "+str(result[0][2]), None))
 	ui.request_duration.setText(_translate("MainWindow", "Dauer: "+str(end_time - start_time)+" Sekunden", None))
-	
-	try: ui.request_save_to_file.clicked.disconnect() 
-	except Exception: pass
-	ui.request_save_to_file.clicked.connect(lambda: save_results_in_file(result,"results"))
+
 	
 solvers = ["Quantencomputer","Pegasus Graph"]
 solver_classes = [quantumcomputer(),pegasus()]
