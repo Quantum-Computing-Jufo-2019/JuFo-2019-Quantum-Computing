@@ -3,6 +3,7 @@
 n = 4 #sudokugröße
 klFeld = 2 #größe der inneren Kästchen
 #int[][] hamiltonianMatrix = new int[n*n*n][n*n*n];
+if_anweisung_count = 0
 hamiltonianMatrix = []
 for y in range(n*n*n):
 	hamiltonianMatrix.append([])
@@ -30,6 +31,16 @@ gegeben = []
 	#}
 	#noLoop();
 #}
+gegeben.append([0,0,0])
+gegeben.append([1,0,2])
+gegeben.append([3,0,3])
+gegeben.append([0,1,3])
+gegeben.append([2,1,0])
+gegeben.append([1,2,3])
+gegeben.append([1,3,0])
+gegeben.append([2,3,3])
+gegeben.append([3,3,1])
+
 
 #stellt den Standardhamiltonian auf
 def hamiltonianTermAufstellen():
@@ -54,7 +65,7 @@ def hamiltonianTermAufstellen():
               #pro Zeile jede Zahl nur einmal
               if y1==y2 and num1==num2  and x1!=x2:
                 hamiltonianMatrix[hamX][hamY]+=1
-                
+
               #pro zelle nur eine Zahl
               if (x1==x2 and y1==y2) and num1!=num2:
                 hamiltonianMatrix[hamX][hamY]+=1
@@ -70,6 +81,7 @@ def hamiltonianTermAufstellen():
 
 #setzt für jedes Qubit was "rausfliegen" soll, da der Wert gegeben ist, eine 8
 def setzeGegebene():
+	global if_anweisung_count
   #for (int i=0; i<gegeben.size(); i++) {
 	for i in range(len(gegeben)):
 	    #for (int x=0; x<n; x++) {
@@ -81,7 +93,9 @@ def setzeGegebene():
 	          hamX = x*n*n+y*n+num
 	          hamY = x*n*n+y*n+num
 	          #if (((x==gegeben.get(i).x or y==gegeben.get(i).y or ((int(x/klFeld)==int(gegeben.get(i).x/klFeld) and int(y/klFeld)==int(gegeben.get(i).y/klFeld))))  and  num==gegeben.get(i).z )): #x==gegeben.get(i).x and y==gegeben.get(i).y) or 
-	          if (x==gegeben.get(i).x and y==gegeben.get(i).y) or (((x==gegeben.get(i).x or y==gegeben.get(i).y or ((int(x/klFeld)==int(gegeben.get(i).x/klFeld) and int(y/klFeld)==int(gegeben.get(i).y/klFeld))))  and  num==gegeben.get(i).z )):
+	          if (x==gegeben[i][0] and y==gegeben[i][1]) or (((x==gegeben[i][0] or y==gegeben[i][1] or ((int(x/klFeld)==int(gegeben[i][0]/klFeld) and int(y/klFeld)==int(gegeben[i][1]/klFeld))))  and  num==gegeben[i][2] )):
+	            print(str(i)+"  "+str(x)+"  "+str(y)+"  "+str(num))
+	            if_anweisung_count = if_anweisung_count+1
 	            #for (int x2=0; x2<n*n*n; x2++) {
 	            for x2 in range(n*n*n):
 	              #for (int y2=0; y2<n*n*n; y2++) {
@@ -113,11 +127,18 @@ def entferneGegebene():
 
   #entferne leere zeilen der Matrix
   #for (int i=0; i<values.size(); i++) {
-	for i in range(len(values)):
+  
+	remove_lines = []
+	#print("len(values) = "+str(len(values)))
+	for i in range(len(values)-1):
+		#print("i = "+str(i))
 		if len(values[i])==0:
-			values.remove(i)
-			i = i-1
+			#values.pop(i)
+			#i = i-1
+			remove_lines.append(i)
 
+	for i in reversed(range(len(remove_lines))):
+		values.pop(remove_lines[i])
   #Fülle von ArrayList in Array
   #hamiltonianMatrix = new int[values.get(0).size()][values.get(0).size()]
 	hamiltonianMatrix = []
@@ -171,7 +192,7 @@ def kostenfunktion(sudokuLocal):
         #for (int i=0; i<gegeben.size(); i++) {
         for i in range(len(gegeben)):
           #if (( (x==gegeben.get(i).x or y==gegeben.get(i).y or ((int(x/klFeld)==int(gegeben.get(i).x/klFeld) and int(y/klFeld)==int(gegeben.get(i).y/klFeld))))  and  num==gegeben.get(i).z)): #x==gegeben.get(i).x and y==gegeben.get(i).y) or 
-          if (x==gegeben.get(i).x and y==gegeben.get(i).y) or (((x==gegeben.get(i).x or y==gegeben.get(i).y or ((int(x/klFeld)==int(gegeben.get(i).x/klFeld) and int(y/klFeld)==int(gegeben.get(i).y/klFeld))))  and  num==gegeben.get(i).z )):
+          if (x==gegeben[i][0] and y==gegeben[i][1]) or (((x==gegeben[i][0] or y==gegeben[i][1] or ((int(x/klFeld)==int(gegeben[i][0]/klFeld) and int(y/klFeld)==int(gegeben[i][1]/klFeld))))  and  num==gegeben[i][2] )):
             #for (int x2=0; x2<n*n*n; x2++) {
             for x2 in range(n*n*n):
               #for (int y2=0; y2<n*n*n; y2++) {
@@ -222,8 +243,11 @@ def exportiereHamiltonianMatrix():
   #saveStrings("qubomatrix_" + n + ".txt", export)
   for i in range(len(export)):
 	print(export[i])
+	
+  print("Matrix Höhe: "+str(len(export)))
 
 hamiltonianTermAufstellen()
 setzeGegebene()
 entferneGegebene()
 exportiereHamiltonianMatrix()
+print(if_anweisung_count)
