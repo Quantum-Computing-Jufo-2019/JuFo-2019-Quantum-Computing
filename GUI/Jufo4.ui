@@ -33,7 +33,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>6</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="page_1">
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -530,7 +530,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget_2">
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="n_queens_options_side">
              <widget class="QWidget" name="verticalLayoutWidget_6">
@@ -641,6 +641,9 @@
                   <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="sudoku_n_select"/>
                </item>
                <item>
                 <widget class="QTableWidget" name="sudoku_options_table">

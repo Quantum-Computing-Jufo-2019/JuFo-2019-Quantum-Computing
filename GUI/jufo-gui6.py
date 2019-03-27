@@ -346,6 +346,9 @@ class Ui_MainWindow(object):
         self.sudoku_options_headline.setAlignment(QtCore.Qt.AlignCenter)
         self.sudoku_options_headline.setObjectName(_fromUtf8("sudoku_options_headline"))
         self.verticalLayout_options_side_2.addWidget(self.sudoku_options_headline)
+        self.sudoku_n_select = QtGui.QComboBox(self.verticalLayoutWidget_7)
+        self.sudoku_n_select.setObjectName(_fromUtf8("sudoku_n_select"))
+        self.verticalLayout_options_side_2.addWidget(self.sudoku_n_select)
         self.sudoku_options_table = QtGui.QTableWidget(self.verticalLayoutWidget_7)
         self.sudoku_options_table.setRowCount(9)
         self.sudoku_options_table.setColumnCount(9)
@@ -432,8 +435,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(6)
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget_2.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -514,6 +517,7 @@ def custom_ui():
 	ui.solver_select.addItems(solvers)
 	ui.problem_select.addItems(qubo_problems)
 	ui.n_queens_n_select.addItems(n_queens_options)
+	ui.sudoku_n_select.addItems(sudoku_options)
 	ui.amazone_n_select.addItems(amazone_options)
 	
 	ui.runs_slider.setMinimum(min_reads)
@@ -541,6 +545,12 @@ def custom_ui():
 	ui.chain_strength_slider.valueChanged.connect(lambda: ui.chain_strength_label.setText(str(ui.chain_strength_slider.value())))
 	
 	ui.request_save_to_file.clicked.connect(save_results_in_file)
+	
+	def sudoku_n_changed():
+		ui.sudoku_options_table.setRowCount(sudoku_options_n[ui.sudoku_n_select.currentIndex()])
+		ui.sudoku_options_table.setColumnCount(sudoku_options_n[ui.sudoku_n_select.currentIndex()])
+	ui.sudoku_n_select.currentIndexChanged.connect(sudoku_n_changed)
+	sudoku_n_changed()
 	
 	warnings.filterwarnings("ignore", message="The Pegasus topology produced by this generator with default parameters is one member of a large family of topologies under consideration, and may not be reflected in future products")
 
@@ -721,6 +731,134 @@ class amazone(qubo_problem):
 			for x in range(self.n):
 				table[y].append(result[(y*self.n)+x])
 		return table
+class sudoku(qubo_problem):
+	def __init__(self,n,gegeben):
+		self.n = n
+		self.klFeld = math.sqrt(n)
+		self.gegeben = gegeben
+		print(gegeben)
+	def get_best_energy(self):
+		return (self.n*self.n*self.n)-(len(self.gegeben)*-2)
+	def get_matrix(self):
+		hamiltonianMatrix = []
+		for y in range(self.n**3):
+			hamiltonianMatrix.append([])
+			for x in range(self.n**3):
+				hamiltonianMatrix[y].append(0)
+				
+		#stelle Matrix auf
+		for x1 in range(self.n):
+			for y1 in range(self.n):    
+				for num1 in range(self.n):
+					for x2 in range(self.n):
+						for y2 in range(self.n):
+							for num2 in range(self.n):
+								hamX = min(x1*self.n*self.n+y1*self.n+num1, x2*self.n*self.n+y2*self.n+num2)
+								hamY = max(x1*self.n*self.n+y1*self.n+num1, x2*self.n*self.n+y2*self.n+num2)
+								
+								#pro Spalte jede Zahl nur einmal
+								if x1==x2 and num1==num2  and y1!=y2:
+									hamiltonianMatrix[hamX][hamY]+=1
+		                
+								#pro Zeile jede Zahl nur einmal
+								if y1==y2 and num1==num2  and x1!=x2:
+									hamiltonianMatrix[hamX][hamY]+=1
+		
+								#pro zelle nur eine Zahl
+								if (x1==x2 and y1==y2) and num1!=num2:
+									hamiltonianMatrix[hamX][hamY]+=1
+		
+								#pro 3x3 Feld nur eine Zahl
+								if (int(x1/self.klFeld)==int(x2/self.klFeld) and int(y1/self.klFeld)==int(y2/self.klFeld)) and num1==num2  and x1!=x2 and y1!=y2:
+									hamiltonianMatrix[hamX][hamY]+=1
+		
+								#Grundbelohnung
+								if x1==x2 and y1==y2 and num1==num2:
+									hamiltonianMatrix[hamX][hamY]-=2
+		
+		#markiere gegebene in Hamiltonian
+		for i in range(len(self.gegeben)):
+			for x in range(self.n):
+				for y in range(self.n):
+					for num in range(self.n):
+						hamX = x*self.n*self.n+y*self.n+num
+						hamY = x*self.n*self.n+y*self.n+num
+						if (x==self.gegeben[i][0] and y==self.gegeben[i][1]) or (((x==self.gegeben[i][0] or y==self.gegeben[i][1] or ((int(x/self.klFeld)==int(self.gegeben[i][0]/self.klFeld) and int(y/self.klFeld)==int(self.gegeben[i][1]/self.klFeld))))  and  num==self.gegeben[i][2] )):
+							for x2 in range(self.n**3):
+								for y2 in range(self.n**3):
+									if hamX==x2:
+										hamiltonianMatrix[hamX][y2]=8
+									if hamY==y2:
+										hamiltonianMatrix[x2][hamY]=8
+		#lösche markierte aus Hamiltonian
+		values = []
+		for i in range(self.n**3):
+			values.append([])
+		
+		for x in range(self.n**3):
+			for y in range(self.n**3):
+				if hamiltonianMatrix[x][y]!=8:
+					values[x].append(int(hamiltonianMatrix[x][y]))
+		  
+		remove_lines = []
+		for i in range(len(values)-1):
+			if len(values[i])==0:
+				remove_lines.append(i)
+		
+		for i in reversed(range(len(remove_lines))):
+			values.pop(remove_lines[i])
+		
+		hamiltonianMatrix = []
+		for i in range(len(values[0])):
+			hamiltonianMatrix.append([])
+			for o in range(len(values[0])):
+				hamiltonianMatrix[i].append(0)
+		
+		for x in range(len(hamiltonianMatrix)):
+			for y in range(len(hamiltonianMatrix)):
+				hamiltonianMatrix[x][y]=int(values[x][y])
+		
+		return hamiltonianMatrix
+	def result_to_table(self,result):
+		result = result.tolist()
+		sudoku = []
+		sudokuTable = []
+		
+		#sortiere um
+		for x in range(self.n):
+			sudoku.append([])
+			for y in range(self.n):
+				sudoku[x].append([])
+				for num in range(self.n):
+					besetzt=True
+					for i in range(len(self.gegeben)):
+						if (x==self.gegeben[i][0] and y==self.gegeben[i][1]) or (((x==self.gegeben[i][0] or y==self.gegeben[i][1] or ((int(x/self.klFeld)==int(self.gegeben[i][0]/self.klFeld) and int(y/self.klFeld)==int(self.gegeben[i][1]/self.klFeld))))  and  num==self.gegeben[i][2] )):
+							besetzt=False
+					if besetzt:
+						sudoku[x][y].append(result[0])
+						result.pop(0)
+					else:
+						sudoku[x][y].append(0)
+		
+		#setze berechnete ein
+		for y in range(self.n):
+			sudokuTable.append([])
+			for x in range(self.n):
+				besetztesFeld=0;
+				for num in range(self.n):
+					if sudoku[x][y][num] == 1:
+						besetztesFeld=num+1;
+				sudokuTable[y].append(besetztesFeld)
+		
+		#setze Gegebene ein
+		for i in range(len(self.gegeben)):
+		  x = self.gegeben[i][0]
+		  y = self.gegeben[i][1]
+		  value = self.gegeben[i][2]+1
+		  sudokuTable[y][x] = value
+		  
+		return sudokuTable
+
 #Functions
 def save_results_in_file():
 	print("saving")
@@ -736,6 +874,16 @@ def set_table_to_array(table,array):
 	for y in range(len(array)):
 		for x in range(len(array[y])):
 			table.setItem(y,x,QTableWidgetItem(str(array[y][x])));
+def table_to_int_array(table):
+	table_array = []
+	for y in range(table.rowCount()):
+		for x in range(table.columnCount()):
+			item = table.item(y,x)
+			if item is not None:
+				print(item.text())
+				if item.text() != "":
+					table_array.append([x,y,int(item.text())-1])
+	return table_array
 def start():
 	global result
 	print("Start")
@@ -747,7 +895,9 @@ def start():
 	elif ui.problem_select.currentIndex() == 1:
 		qubo_problem = knights_tour()
 	elif ui.problem_select.currentIndex() == 2:
-		print("sudoku")
+		#qubo_problem = sudoku_options_classes[ui.sudoku_n_select.currentIndex()]
+		#print(table_to_int_array(ui.sudoku_options_table))
+		qubo_problem = sudoku(sudoku_options_n[ui.sudoku_n_select.currentIndex()],table_to_int_array(ui.sudoku_options_table))
 	elif ui.problem_select.currentIndex() == 3:
 		qubo_problem = amazone_options_classes[ui.amazone_n_select.currentIndex()]
 	runs = ui.runs_slider.value()
@@ -772,6 +922,8 @@ solver_classes = [quantumcomputer(),pegasus()]
 qubo_problems = ["N Damen","Knights Tour","Sudoku","Grossvisier"]
 n_queens_options = ["n=4","n=5","n=6","n=7","n=8","n=8 (mit Trick)"]
 n_queens_options_classes = [n_queens(4,False),n_queens(5,False),n_queens(6,False),n_queens(7,False),n_queens(8,False),n_queens(7,True)]
+sudoku_options = ["n=4","n=9"]
+sudoku_options_n = [4,9]
 amazone_options = ["n=4","n=5","n=6","n=7"]
 amazone_options_classes = [amazone(4),amazone(5),amazone(6),amazone(7)]
 
@@ -782,5 +934,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    #sudoku_options_classes = [sudoku(4,table_to_int_array(ui.sudoku_options_table)),sudoku(9,table_to_int_array(ui.sudoku_options_table))]
     custom_ui()
     sys.exit(app.exec_())

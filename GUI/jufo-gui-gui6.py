@@ -315,6 +315,9 @@ class Ui_MainWindow(object):
         self.sudoku_options_headline.setAlignment(QtCore.Qt.AlignCenter)
         self.sudoku_options_headline.setObjectName(_fromUtf8("sudoku_options_headline"))
         self.verticalLayout_options_side_2.addWidget(self.sudoku_options_headline)
+        self.sudoku_n_select = QtGui.QComboBox(self.verticalLayoutWidget_7)
+        self.sudoku_n_select.setObjectName(_fromUtf8("sudoku_n_select"))
+        self.verticalLayout_options_side_2.addWidget(self.sudoku_n_select)
         self.sudoku_options_table = QtGui.QTableWidget(self.verticalLayoutWidget_7)
         self.sudoku_options_table.setRowCount(9)
         self.sudoku_options_table.setColumnCount(9)
@@ -401,8 +404,8 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(6)
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget_2.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
