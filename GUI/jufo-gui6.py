@@ -435,7 +435,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(6)
         self.stackedWidget_2.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -736,7 +736,6 @@ class sudoku(qubo_problem):
 		self.n = n
 		self.klFeld = math.sqrt(n)
 		self.gegeben = gegeben
-		print(gegeben)
 	def get_best_energy(self):
 		return (self.n*self.n*self.n)-(len(self.gegeben)*-2)
 	def get_matrix(self):
@@ -880,7 +879,6 @@ def table_to_int_array(table):
 		for x in range(table.columnCount()):
 			item = table.item(y,x)
 			if item is not None:
-				print(item.text())
 				if item.text() != "":
 					table_array.append([x,y,int(item.text())-1])
 	return table_array
@@ -895,8 +893,6 @@ def start():
 	elif ui.problem_select.currentIndex() == 1:
 		qubo_problem = knights_tour()
 	elif ui.problem_select.currentIndex() == 2:
-		#qubo_problem = sudoku_options_classes[ui.sudoku_n_select.currentIndex()]
-		#print(table_to_int_array(ui.sudoku_options_table))
 		qubo_problem = sudoku(sudoku_options_n[ui.sudoku_n_select.currentIndex()],table_to_int_array(ui.sudoku_options_table))
 	elif ui.problem_select.currentIndex() == 3:
 		qubo_problem = amazone_options_classes[ui.amazone_n_select.currentIndex()]
@@ -922,8 +918,8 @@ solver_classes = [quantumcomputer(),pegasus()]
 qubo_problems = ["N Damen","Knights Tour","Sudoku","Grossvisier"]
 n_queens_options = ["n=4","n=5","n=6","n=7","n=8","n=8 (mit Trick)"]
 n_queens_options_classes = [n_queens(4,False),n_queens(5,False),n_queens(6,False),n_queens(7,False),n_queens(8,False),n_queens(7,True)]
-sudoku_options = ["n=4","n=9"]
-sudoku_options_n = [4,9]
+sudoku_options = ["n=4"]
+sudoku_options_n = [4]
 amazone_options = ["n=4","n=5","n=6","n=7"]
 amazone_options_classes = [amazone(4),amazone(5),amazone(6),amazone(7)]
 
@@ -934,6 +930,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    #sudoku_options_classes = [sudoku(4,table_to_int_array(ui.sudoku_options_table)),sudoku(9,table_to_int_array(ui.sudoku_options_table))]
     custom_ui()
     sys.exit(app.exec_())

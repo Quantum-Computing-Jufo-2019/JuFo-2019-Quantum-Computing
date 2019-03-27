@@ -404,7 +404,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(6)
         self.stackedWidget_2.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -446,7 +446,7 @@ class Ui_MainWindow(object):
         self.next_button_side_6.setText(_translate("MainWindow", "start", None))
         self.headline_side7.setText(_translate("MainWindow", "Ergebnisse", None))
         self.result_energy.setText(_translate("MainWindow", "Energie:", None))
-        self.result_best_energy.setText(_translate("MainWindow", "beste Energie:", None))
+        self.result_best_energy.setText(_translate("MainWindow", "Beste Energie:", None))
         self.number_same_results.setText(_translate("MainWindow", "Anzahl gleicher Ergebnisse:", None))
         self.result_requests.setText(_translate("MainWindow", "Requests: ", None))
         self.request_duration.setText(_translate("MainWindow", "Dauer: ", None))
