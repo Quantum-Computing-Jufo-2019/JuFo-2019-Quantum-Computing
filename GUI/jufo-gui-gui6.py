@@ -327,6 +327,9 @@ class Ui_MainWindow(object):
         self.sudoku_options_table.verticalHeader().setVisible(False)
         self.sudoku_options_table.verticalHeader().setHighlightSections(True)
         self.verticalLayout_options_side_2.addWidget(self.sudoku_options_table)
+        self.sudoku_presets = QtGui.QComboBox(self.verticalLayoutWidget_7)
+        self.sudoku_presets.setObjectName(_fromUtf8("sudoku_presets"))
+        self.verticalLayout_options_side_2.addWidget(self.sudoku_presets)
         self.stackedWidget_2.addWidget(self.sudoku_options_side)
         self.amazone_options_side = QtGui.QWidget()
         self.amazone_options_side.setObjectName(_fromUtf8("amazone_options_side"))
@@ -404,7 +407,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(6)
+        self.stackedWidget.setCurrentIndex(5)
         self.stackedWidget_2.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

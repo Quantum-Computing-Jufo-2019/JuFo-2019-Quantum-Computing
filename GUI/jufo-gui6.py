@@ -358,6 +358,9 @@ class Ui_MainWindow(object):
         self.sudoku_options_table.verticalHeader().setVisible(False)
         self.sudoku_options_table.verticalHeader().setHighlightSections(True)
         self.verticalLayout_options_side_2.addWidget(self.sudoku_options_table)
+        self.sudoku_presets = QtGui.QComboBox(self.verticalLayoutWidget_7)
+        self.sudoku_presets.setObjectName(_fromUtf8("sudoku_presets"))
+        self.verticalLayout_options_side_2.addWidget(self.sudoku_presets)
         self.stackedWidget_2.addWidget(self.sudoku_options_side)
         self.amazone_options_side = QtGui.QWidget()
         self.amazone_options_side.setObjectName(_fromUtf8("amazone_options_side"))
@@ -435,7 +438,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(6)
+        self.stackedWidget.setCurrentIndex(5)
         self.stackedWidget_2.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -547,10 +550,17 @@ def custom_ui():
 	ui.request_save_to_file.clicked.connect(save_results_in_file)
 	
 	def sudoku_n_changed():
-		ui.sudoku_options_table.setRowCount(sudoku_options_n[ui.sudoku_n_select.currentIndex()])
-		ui.sudoku_options_table.setColumnCount(sudoku_options_n[ui.sudoku_n_select.currentIndex()])
+		new_n_index = ui.sudoku_n_select.currentIndex()
+		ui.sudoku_options_table.setRowCount(sudoku_options_n[new_n_index])
+		ui.sudoku_options_table.setColumnCount(sudoku_options_n[new_n_index])
+		ui.sudoku_presets.clear()
+		ui.sudoku_presets.addItems(sudoku_preset_titles[new_n_index])
 	ui.sudoku_n_select.currentIndexChanged.connect(sudoku_n_changed)
 	sudoku_n_changed()
+	
+	def sudoku_preset_changed():
+		set_table_to_array(ui.sudoku_options_table,sudoku_presets[ui.sudoku_n_select.currentIndex()][ui.sudoku_presets.currentIndex()])
+	ui.sudoku_presets.currentIndexChanged.connect(sudoku_preset_changed)
 	
 	warnings.filterwarnings("ignore", message="The Pegasus topology produced by this generator with default parameters is one member of a large family of topologies under consideration, and may not be reflected in future products")
 
@@ -737,7 +747,7 @@ class sudoku(qubo_problem):
 		self.klFeld = math.sqrt(n)
 		self.gegeben = gegeben
 	def get_best_energy(self):
-		return (self.n*self.n*self.n)-(len(self.gegeben)*-2)
+		return (-2*(self.n*self.n))-(len(self.gegeben)*-2)
 	def get_matrix(self):
 		hamiltonianMatrix = []
 		for y in range(self.n**3):
@@ -920,6 +930,23 @@ n_queens_options = ["n=4","n=5","n=6","n=7","n=8","n=8 (mit Trick)"]
 n_queens_options_classes = [n_queens(4,False),n_queens(5,False),n_queens(6,False),n_queens(7,False),n_queens(8,False),n_queens(7,True)]
 sudoku_options = ["n=4"]
 sudoku_options_n = [4]
+sudoku_preset_titles = [["leer","9 vorgegebene"]]
+sudoku_presets = [
+					[
+						[
+							["","","",""],
+							["","","",""],
+							["","","",""],
+							["","","",""]
+						],
+						[
+							["1","3","","4"],
+							["4","","1",""],
+							["","4","",""],
+							["","1","4","2"]
+						]
+					]
+				]
 amazone_options = ["n=4","n=5","n=6","n=7"]
 amazone_options_classes = [amazone(4),amazone(5),amazone(6),amazone(7)]
 

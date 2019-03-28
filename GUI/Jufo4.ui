@@ -685,6 +685,9 @@
                  <column/>
                 </widget>
                </item>
+               <item>
+                <widget class="QComboBox" name="sudoku_presets"/>
+               </item>
               </layout>
              </widget>
             </widget>
