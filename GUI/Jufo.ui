@@ -33,7 +33,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page_1">
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -89,11 +89,18 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="next_button_side_1">
-            <property name="text">
-             <string>weiter</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="next_button_side_1">
+              <property name="text">
+               <string>weiter</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -158,11 +165,25 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="next_button_side_2">
-            <property name="text">
-             <string>weiter</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="back_button_side_2">
+              <property name="text">
+               <string>zurück</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="next_button_side_2">
+              <property name="text">
+               <string>weiter</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -211,11 +232,25 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="next_button_side_3">
-            <property name="text">
-             <string>weiter</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="back_button_side_3">
+              <property name="text">
+               <string>zurück</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="next_button_side_3">
+              <property name="text">
+               <string>weiter</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -435,11 +470,25 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="next_button_side_4">
-            <property name="text">
-             <string>weiter</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="back_button_side_4">
+              <property name="text">
+               <string>zurück</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="next_button_side_4">
+              <property name="text">
+               <string>weiter</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -488,11 +537,25 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="next_button_side_5">
-            <property name="text">
-             <string>weiter</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="back_button_side_5">
+              <property name="text">
+               <string>zurück</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="next_button_side_5">
+              <property name="text">
+               <string>weiter</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -530,7 +593,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget_2">
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="n_queens_options_side">
              <widget class="QWidget" name="verticalLayoutWidget_6">
@@ -731,11 +794,25 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="next_button_side_6">
-            <property name="text">
-             <string>start</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </widget>
+            <item>
+             <widget class="QPushButton" name="back_button_side_6">
+              <property name="text">
+               <string>zurück</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="next_button_side_6">
+              <property name="text">
+               <string>start</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
