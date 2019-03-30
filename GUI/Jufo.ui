@@ -33,7 +33,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="page_1">
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -593,7 +593,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget_2">
             <property name="currentIndex">
-             <number>0</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="n_queens_options_side">
              <widget class="QWidget" name="verticalLayoutWidget_6">
@@ -770,6 +770,9 @@
                  <property name="text">
                   <string>Amazone Optionen:</string>
                  </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -787,6 +790,30 @@
                   </size>
                  </property>
                 </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page">
+             <widget class="QWidget" name="verticalLayoutWidget_13">
+              <property name="geometry">
+               <rect>
+                <x>-1</x>
+                <y>9</y>
+                <width>681</width>
+                <height>481</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QPlainTextEdit" name="custom_hamiltonian_text_field"/>
+               </item>
+               <item>
+                <widget class="QPushButton" name="custom_hamiltonian_file_picker_button">
+                 <property name="text">
+                  <string>Datei öffnen</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
