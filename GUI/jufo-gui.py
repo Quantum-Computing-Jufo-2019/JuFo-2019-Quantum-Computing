@@ -298,6 +298,23 @@ class Ui_MainWindow(object):
         self.verticalLayout_side_5.addWidget(self.problem_select)
         spacerItem4 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_side_5.addItem(spacerItem4)
+        self.definition_headline = QtGui.QLabel(self.verticalLayoutWidget_4)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.definition_headline.setFont(font)
+        self.definition_headline.setObjectName(_fromUtf8("definition_headline"))
+        self.verticalLayout_side_5.addWidget(self.definition_headline)
+        self.qubo_definition = QtGui.QLabel(self.verticalLayoutWidget_4)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.qubo_definition.setFont(font)
+        self.qubo_definition.setText(_fromUtf8(""))
+        self.qubo_definition.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.qubo_definition.setWordWrap(True)
+        self.qubo_definition.setObjectName(_fromUtf8("qubo_definition"))
+        self.verticalLayout_side_5.addWidget(self.qubo_definition)
         self.horizontalLayout_7 = QtGui.QHBoxLayout()
         self.horizontalLayout_7.setContentsMargins(-1, -1, -1, 0)
         self.horizontalLayout_7.setObjectName(_fromUtf8("horizontalLayout_7"))
@@ -412,21 +429,26 @@ class Ui_MainWindow(object):
         spacerItem7 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_6.addItem(spacerItem7)
         self.stackedWidget_2.addWidget(self.amazone_options_side)
-        self.page = QtGui.QWidget()
-        self.page.setObjectName(_fromUtf8("page"))
-        self.verticalLayoutWidget_13 = QtGui.QWidget(self.page)
+        self.custom_hamiltonian_side = QtGui.QWidget()
+        self.custom_hamiltonian_side.setObjectName(_fromUtf8("custom_hamiltonian_side"))
+        self.verticalLayoutWidget_13 = QtGui.QWidget(self.custom_hamiltonian_side)
         self.verticalLayoutWidget_13.setGeometry(QtCore.QRect(-1, 9, 681, 481))
         self.verticalLayoutWidget_13.setObjectName(_fromUtf8("verticalLayoutWidget_13"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.verticalLayoutWidget_13)
         self.verticalLayout_2.setMargin(0)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.custom_hamiltonian_label = QtGui.QLabel(self.verticalLayoutWidget_13)
+        self.custom_hamiltonian_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.custom_hamiltonian_label.setObjectName(_fromUtf8("custom_hamiltonian_label"))
+        self.verticalLayout_2.addWidget(self.custom_hamiltonian_label)
         self.custom_hamiltonian_text_field = QtGui.QPlainTextEdit(self.verticalLayoutWidget_13)
+        self.custom_hamiltonian_text_field.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
         self.custom_hamiltonian_text_field.setObjectName(_fromUtf8("custom_hamiltonian_text_field"))
         self.verticalLayout_2.addWidget(self.custom_hamiltonian_text_field)
         self.custom_hamiltonian_file_picker_button = QtGui.QPushButton(self.verticalLayoutWidget_13)
         self.custom_hamiltonian_file_picker_button.setObjectName(_fromUtf8("custom_hamiltonian_file_picker_button"))
         self.verticalLayout_2.addWidget(self.custom_hamiltonian_file_picker_button)
-        self.stackedWidget_2.addWidget(self.page)
+        self.stackedWidget_2.addWidget(self.custom_hamiltonian_side)
         self.verticalLayout_side_6.addWidget(self.stackedWidget_2)
         self.horizontalLayout_8 = QtGui.QHBoxLayout()
         self.horizontalLayout_8.setContentsMargins(-1, -1, -1, 0)
@@ -493,7 +515,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -528,6 +550,7 @@ class Ui_MainWindow(object):
         self.back_button_side_4.setText(_translate("MainWindow", "zurück", None))
         self.next_button_side_4.setText(_translate("MainWindow", "weiter", None))
         self.headline_side_5.setText(_translate("MainWindow", "Optimierungsproblem auswählen", None))
+        self.definition_headline.setText(_translate("MainWindow", "Definition:", None))
         self.back_button_side_5.setText(_translate("MainWindow", "zurück", None))
         self.next_button_side_5.setText(_translate("MainWindow", "weiter", None))
         self.headline_side_6.setText(_translate("MainWindow", "Optionen für Optimierungsproblem", None))
@@ -536,6 +559,7 @@ class Ui_MainWindow(object):
         self.knights_tour_no_options_label.setText(_translate("MainWindow", "keine Einstellungen benötigt", None))
         self.sudoku_options_headline.setText(_translate("MainWindow", "Sudoku Optionen:", None))
         self.amazone_options_headline.setText(_translate("MainWindow", "Amazone Optionen:", None))
+        self.custom_hamiltonian_label.setText(_translate("MainWindow", "Eigener Hamiltonian:", None))
         self.custom_hamiltonian_file_picker_button.setText(_translate("MainWindow", "Datei öffnen", None))
         self.back_button_side_6.setText(_translate("MainWindow", "zurück", None))
         self.next_button_side_6.setText(_translate("MainWindow", "start", None))
@@ -618,6 +642,11 @@ def custom_ui():
 	
 	ui.request_save_to_file.clicked.connect(save_results_in_file)
 	
+	ui.custom_hamiltonian_file_picker_button.clicked.connect(open_hamiltonian_file)
+	
+	ui.problem_select.currentIndexChanged.connect(lambda: ui.qubo_definition.setText(QString.fromLocal8Bit(qubo_definitions[ui.problem_select.currentIndex()])))
+	ui.qubo_definition.setText(QString.fromLocal8Bit(qubo_definitions[ui.problem_select.currentIndex()]))
+	
 	def sudoku_n_changed():
 		new_n_index = ui.sudoku_n_select.currentIndex()
 		ui.sudoku_options_table.setRowCount(sudoku_options_n[new_n_index])
@@ -648,7 +677,6 @@ class quantumcomputer(solver):
 				qubo[index] = value
 		return qubo
 	def solve(self,qubomatrix,num_reads,annealing_time,chain_strength):
-		print(qubomatrix)
 		qubo = self.convert_to_qubo(qubomatrix)
 		responses = []
 		
@@ -947,13 +975,19 @@ class custom(qubo_problem):
 	def result_to_table(self,result):
 		return [result]
 #Functions
+def open_hamiltonian_file(self):
+	filename = QFileDialog.getOpenFileName(ui.centralwidget, 'Hamiltonian auswählen', '')
+	if filename != '':
+		with open(filename,'r') as file:
+			ui.custom_hamiltonian_text_field.setPlainText(file.read())
 def save_results_in_file():
-	print("saving")
-	with open("results.txt",'w') as file:
-		file.write('energy\tnum_occurrences\tsample\n')
-		for response in result:
-			file.write('%f\t%d\t%s' % (response[0], response[2], np.array2string(response[1], max_line_width=None).replace('\n','')))
-			file.write('\n')
+	filename = QFileDialog.getSaveFileName(ui.centralwidget, 'Speicherort auswählen', 'results.txt')
+	if filename != '':
+		with open(filename,'w') as file:
+			file.write('energy\tnum_occurrences\tsample\n')
+			for response in result:
+				file.write('%f\t%d\t%s' % (response[0], response[2], np.array2string(response[1], max_line_width=None).replace('\n','')))
+				file.write('\n')
 def string_to_array(string):
 	array = []
 	string = string.splitlines()
@@ -1011,7 +1045,14 @@ def start():
 	
 solvers = ["Quantencomputer","Pegasus Graph"]
 solver_classes = [quantumcomputer(),pegasus()]
-qubo_problems = ["N Damen","Knights Tour","Sudoku","Grossvisier","eigener Hamiltonian"]
+qubo_problems = ["N Damen","Knights Tour","Sudoku","N Amazonen","eigener Hamiltonian"]
+qubo_definitions = [
+						"Beim n-Damenproblem geht es darum n Schachdamen auf einem n mal n großen Schachfeld so zu verteilen, dass keine eine andere bedroht.",
+						"Beim Knights Tour soll ein Springer einen Weg über ein n mal n großes Schachfeld finden bei dem er jedes Feld genau einmal besucht.",
+						"Beim Sudoku wird ein (in diesem Fall 4 mal 4 großes) Feld in (in diesem Fall 4) kleinere Quadrate unterteilt. In jedem Quadrat , jeder Zeile und jeder Spalte darf eine Zahl nur einmal vorkommen.",
+						"Beim n-Amazonenproblem sollen n Amazonen auf einem n mal n großen Feld platziert werden. Eine Amazone kann jeden Zug entscheiden ob sie wie eine Dame oder ein Springer zieht.",
+						""
+					]
 n_queens_options = ["n=4","n=5","n=6","n=7","n=8","n=8 (mit Trick)"]
 n_queens_options_classes = [n_queens(4,False),n_queens(5,False),n_queens(6,False),n_queens(7,False),n_queens(8,False),n_queens(7,True)]
 sudoku_options = ["n=4"]

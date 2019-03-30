@@ -33,7 +33,7 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="page_1">
         <widget class="QWidget" name="verticalLayoutWidget">
@@ -537,6 +537,38 @@
            </spacer>
           </item>
           <item>
+           <widget class="QLabel" name="definition_headline">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Definition:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="qubo_definition">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <property name="bottomMargin">
              <number>0</number>
@@ -794,7 +826,7 @@
               </layout>
              </widget>
             </widget>
-            <widget class="QWidget" name="page">
+            <widget class="QWidget" name="custom_hamiltonian_side">
              <widget class="QWidget" name="verticalLayoutWidget_13">
               <property name="geometry">
                <rect>
@@ -806,7 +838,21 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QPlainTextEdit" name="custom_hamiltonian_text_field"/>
+                <widget class="QLabel" name="custom_hamiltonian_label">
+                 <property name="text">
+                  <string>Eigener Hamiltonian:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="custom_hamiltonian_text_field">
+                 <property name="lineWrapMode">
+                  <enum>QPlainTextEdit::NoWrap</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="custom_hamiltonian_file_picker_button">
