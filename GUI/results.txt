@@ -1,0 +1,2 @@
+energy	num_occurrences	sample
+-14.000000	7141	[1 0 1 1 1 1 1 1 0]

@@ -33,7 +33,7 @@ result = 0
 min_reads = 1000
 max_reads = 100000
 min_annealing_time = 20
-max_annealing_time = 500
+max_annealing_time = 100
 min_chain_strength = 1
 max_chain_strength = 40
 
@@ -594,6 +594,7 @@ def switch_options_side():
 	ui.stackedWidget_2.setCurrentIndex(ui.problem_select.currentIndex())
 	next_button()
 def custom_ui():
+	
 	ui.stackedWidget.setCurrentIndex(0)
 	ui.stackedWidget_2.setCurrentIndex(0)
 	ui.next_button_side_1.clicked.connect(next_button)
@@ -1045,12 +1046,12 @@ def start():
 	
 solvers = ["Quantencomputer","Pegasus Graph"]
 solver_classes = [quantumcomputer(),pegasus()]
-qubo_problems = ["N Damen","Knights Tour","Sudoku","N Amazonen","eigener Hamiltonian"]
+qubo_problems = ["N Damen","Springerproblem","Sudoku","N Amazonen","eigener Hamiltonian"]
 qubo_definitions = [
-						"Beim n-Damenproblem geht es darum n Schachdamen auf einem n mal n großen Schachfeld so zu verteilen, dass keine eine andere bedroht.",
-						"Beim Knights Tour soll ein Springer einen Weg über ein n mal n großes Schachfeld finden bei dem er jedes Feld genau einmal besucht.",
-						"Beim Sudoku wird ein (in diesem Fall 4 mal 4 großes) Feld in (in diesem Fall 4) kleinere Quadrate unterteilt. In jedem Quadrat , jeder Zeile und jeder Spalte darf eine Zahl nur einmal vorkommen.",
-						"Beim n-Amazonenproblem sollen n Amazonen auf einem n mal n großen Feld platziert werden. Eine Amazone kann jeden Zug entscheiden ob sie wie eine Dame oder ein Springer zieht.",
+						"Beim n-Damenproblem geht es darum, n Schachdamen auf einem n mal n großen Schachfeld so zu verteilen, dass keine eine andere bedroht.",
+						"Beim Springerproblem soll ein Springer einen Weg über ein n mal n großes Schachfeld finden bei dem er jedes Feld genau einmal besucht.",
+						"Beim Sudoku wird ein (in diesem Fall 4 mal 4 großes) Feld in (in diesem Fall 4) kleinere Quadrate unterteilt. In jedem Quadrat , jeder Zeile und jeder Spalte müssen alle Zahlen von 1 - 4 genau einmal vorkommen.",
+						"Beim n-Amazonenproblem sollen möglichst viele Amazonen auf einem n mal n großen Feld platziert werden. Eine Amazone kann S.",
 						""
 					]
 n_queens_options = ["n=4","n=5","n=6","n=7","n=8","n=8 (mit Trick)"]
