@@ -10,14 +10,15 @@ cache:
 
 before_script:
   - python -V
-  - pip install virtualenv dwave-ocean-sdk PyQt4 numpy functools 
+  - apt-get install python3-pyqt4
+  - pip install virtualenv dwave-ocean-sdk numpy functools 
   - virtualenv venv
   - source venv/bin/activate
 
 test_gui:
   script:
   - python GUI/jufo-gui.py test
-  - pip install tox flake8 # you can also use tox
+  - pip install tox flake8
   - tox -e py36,flake8
 
 run_gui:
