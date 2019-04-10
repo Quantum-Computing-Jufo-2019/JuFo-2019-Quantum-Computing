@@ -11,7 +11,7 @@ cache:
 before_script:
   - python -V
   - apt update
-  - apt-get install python3-pyqt4
+  - apt-get install python3-pyqt4 -y
   - pip install virtualenv dwave-ocean-sdk numpy functools 
   - virtualenv venv
   - source venv/bin/activate
