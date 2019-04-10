@@ -5,8 +5,6 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import numpy as np
 
-from functools import partial
-
 import sys
 
 from dwave.system.samplers import DWaveSampler
