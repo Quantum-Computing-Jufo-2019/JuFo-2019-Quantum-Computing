@@ -10,7 +10,7 @@ cache:
 
 before_script:
   - python -V
-  - pip install virtualenv
+  - pip install virtualenv dwave-ocean-sdk PyQt4 numpy functools 
   - virtualenv venv
   - source venv/bin/activate
 
