@@ -681,14 +681,17 @@ class quantumcomputer(solver):
 		
 		progress = 0
 		
-		dwave_user_max_time = 900000.0
+		dwave_user_max_time = 700000.0
 		
 		if num_reads*annealing_time > dwave_user_max_time:
-			self.num_reads_per_request = math.trunc(dwave_user_max_time/annealing_time)
+			self.num_reads_per_request = min(math.trunc(dwave_user_max_time/annealing_time),10000)
 			self.number_of_requests = int((num_reads*1.0)/self.num_reads_per_request)
 		else:
 			self.num_reads_per_request = num_reads;
 			self.number_of_requests = 1
+			
+		print(self.num_reads_per_request)
+		print(self.number_of_requests)
 		
 		i = 0
 		for read in range(0,int(self.number_of_requests)):
