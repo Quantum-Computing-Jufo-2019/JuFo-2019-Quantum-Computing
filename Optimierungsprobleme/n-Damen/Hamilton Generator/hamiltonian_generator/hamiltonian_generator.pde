@@ -1,4 +1,4 @@
-import java.util.*; //<>//
+import java.util.*;
 
 int n = 4;
 boolean diagonaleFrei = true;
