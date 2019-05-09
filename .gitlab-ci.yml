@@ -20,7 +20,7 @@ test_gui:
   script:
   - python GUI/jufo-gui.py test
   - pip install tox flake8
-  - tox -e py36,flake8
+  - tox -e py36,flake8 
 
 run_gui:
   script:
