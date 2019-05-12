@@ -1,7 +1,7 @@
-import java.util.*;
+import java.util.*; //<>//
 
-int n = 4;
-boolean diagonaleFrei = true;
+int n = 8;
+boolean diagonaleFrei = false;
 boolean[][] schachfeld = new boolean[n][n];
 boolean[][] ausgangsposition = new boolean[n][n];
 int[][] hamiltonianMatrix = new int[n*n][n*n];
@@ -77,9 +77,9 @@ void draw() {
       schachfeld[i][j]=ausgangsposition[i][j];
     }
   }
+  thresholdAccepting();  
+  exportiereGraph(thresholdGraph, "threshold");
 
-  greatDeluge();
-  exportiereGraph(greatDelugeGraph, "greatDeluge");
   println();
 
   for (int i=0; i<n; i++) {
@@ -87,8 +87,8 @@ void draw() {
       schachfeld[i][j]=ausgangsposition[i][j];
     }
   }
-  thresholdAccepting();  
-  exportiereGraph(thresholdGraph, "threshold");
+  greatDeluge();
+  exportiereGraph(greatDelugeGraph, "greatDeluge");
 }
 
 
@@ -98,7 +98,7 @@ void hamiltonianTermAufstellen() {
 
   if (diagonaleFrei) {
     hoechstwert=n-1;
-    //Gesamtdiagonale rechts oben nach links unten
+    ////Gesamtdiagonale rechts oben nach links unten
     {   
       ArrayList <PVector> hamiltonianTermIntern = new ArrayList<PVector>();
       for (int x=n, y=1; y<=n; x--, y++) {
@@ -140,7 +140,7 @@ void hamiltonianTermAufstellen() {
 
 
   //Diagonalen obere Hälfte (Ecke oben links; von rechts oben nach links unten)
-  for (int i=hoechstwert; i>=1; i--) {
+  for (int i=hoechstwert; i>=1; i--) {//i=hoechstwert
     ArrayList <PVector> hamiltonianTermIntern = new ArrayList<PVector>();
     for (int x=n, y=i, j=1; (x>=1||y>=1)&&j<=i; x--, y--, j++) {
       hamiltonianTermIntern.add(new PVector(x, y));
@@ -165,7 +165,7 @@ void hamiltonianTermAufstellen() {
 
 
   //diagonal untere hälfte links oben nach rechts unten
-  for (int abbruch=hoechstwert, i=1; abbruch>=1||i<=n; abbruch--, i++) {
+  for (int abbruch=hoechstwert, i=1; abbruch>=1||i<=n; abbruch--, i++) {//abbruch=hoechstwert
     ArrayList <PVector> hamiltonianTermIntern = new ArrayList<PVector>();
     for (int x=i, y=n, j=1; (x<=n||y>=1)&&j<=abbruch; x++, y--, j++) {
       hamiltonianTermIntern.add(new PVector(x, y));
@@ -269,7 +269,7 @@ int kostenfunktion(boolean[][]schachfeldLocal) {
 void greedy() {
   println("greedy:");
 
-  for (int durchlauf=0; durchlauf<100000; durchlauf++) {
+  for (int durchlauf=0; durchlauf<10000; durchlauf++) {
     int alteKosten = kostenfunktion(schachfeld);
     zeichneGraph(durchlauf, alteKosten, color(0, 255, 0));
     int x = int(random(n));
@@ -295,7 +295,7 @@ void thresholdAccepting() {
   println("threshold:");
   float threshold=randomWalkTreshold();
 
-  for (int durchlauf=0; durchlauf<10000000; durchlauf++) {
+  for (int durchlauf=0; durchlauf<10000; durchlauf++) {
     int alteKosten = kostenfunktion(schachfeld);
     int x = int(random(n));
     int y = int(random(n));
@@ -321,7 +321,7 @@ void simulatedAnnealing() {
   println("simAnn:");
   float simAnn=randomWalkTreshold();
 
-  for (int durchlauf=0; durchlauf<100000000; durchlauf++) {
+  for (int durchlauf=0; durchlauf<10000; durchlauf++) {
     int alteKosten = kostenfunktion(schachfeld);
     int x = int(random(n));
     int y = int(random(n));
@@ -338,7 +338,7 @@ void simulatedAnnealing() {
       println("simAnn Schwelle: "+simAnn);
       break;
     }
-    simAnn*=0.9; //0.95
+    simAnn*=0.85; //0.95
   }
   maleSchachfeld(schachfeld);
   println("Kosten: "+kostenfunktion(schachfeld));
@@ -353,15 +353,14 @@ void greatDeluge() {
       schachfeldWorstCase[i][j]=true;
     }
   }
-  float greatDeluge=kostenfunktion(schachfeldWorstCase);
+  float greatDeluge=kostenfunktion(schachfeldWorstCase);//700
 
-  for (int durchlauf=0; durchlauf<100000000; durchlauf++) {
+  for (int durchlauf=0; durchlauf<100000; durchlauf++) {
     int x = int(random(n));
     int y = int(random(n));
     schachfeld[x][y]=!schachfeld[x][y];
     int kosten=kostenfunktion(schachfeld);
-
-    if (kosten>greatDeluge) {
+    if (kosten>greatDeluge+(n*-2)) {// kosten>greatDeluge-n*-2
       schachfeld[x][y]=!schachfeld[x][y];
     }
     greatDelugeGraph.add(durchlauf+" "+kostenfunktion(schachfeld));
@@ -370,7 +369,7 @@ void greatDeluge() {
       println("greatDeluge Schwelle: "+greatDeluge);
       break;//exit();
     }
-    greatDeluge*=0.995;
+    greatDeluge*=0.997;//0.9999;
   }
   maleSchachfeld(schachfeld);
   println("Kosten: "+kostenfunktion(schachfeld));
@@ -438,5 +437,5 @@ void exportiereGraph(ArrayList <String> listToWrite, String algo) {
   for (int i=0; i<listToWrite.size(); i++) {
     graphWrite[i]=listToWrite.get(i);
   }
-  saveStrings("Graph_"+n+"_"+(diagonaleFrei==true?("diagFrei"):("diagBesetzt"))+"_"+algo+".txt", graphWrite);
+  saveStrings("Graph_"+n+"_"+(diagonaleFrei==true?("diagFrei"):("diagBesetzt"))+"_"+algo+"ausgangs.txt", graphWrite);
 }
