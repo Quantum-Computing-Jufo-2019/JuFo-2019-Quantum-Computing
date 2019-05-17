@@ -1,11 +1,8 @@
 void setup() {
   int n = 4;
 
-  String jakovs = "";
-  String pauls = "";
-
-  String paul[] = pauls.split("\n");
-  String jakov[] = jakovs.split("\n");
+  String paul[] = loadStrings("paul.txt");
+  String jakov[] = loadStrings("jakov.txt");
 
   String[][] paulMatrix = new String[paul.length][paul.length];
   String[][] jakovMatrix = new String[jakov.length][jakov.length];
@@ -41,6 +38,7 @@ void setup() {
         }
       }
     }
+    println("errors= "+errors);
   }
 }
 int jakov_stelle(int feldX, int feldY, int ebene, int n) {
