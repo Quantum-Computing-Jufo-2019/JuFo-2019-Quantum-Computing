@@ -253,7 +253,7 @@ void simulatedAnnealing() {
   println("simAnn:");
   float simAnn=randomWalkTreshold();
 
-  for (int durchlauf=0; durchlauf<100000; durchlauf++) {
+  for (int durchlauf=0; durchlauf<700000; durchlauf++) {
     int alteKosten = kostenfunktion(sudoku);
     int x = int(random(n));
     int y = int(random(n));
@@ -273,13 +273,13 @@ void simulatedAnnealing() {
     kosten=kostenfunktion(sudoku);
     simAnnGraph.add(durchlauf+" "+kosten);
 
-    if (kosten==n*n*(-2)) {
-      println(durchlauf+" Durchläufe");
-      println("simAnn Schwelle: "+simAnn);
-      break;
-    }
+    //if (kosten==n*n*(-2)) {
+    //  println(durchlauf+" Durchläufe");
+    //  println("simAnn Schwelle: "+simAnn);
+    //  break;
+    //}
 
-    simAnn*=0.9; //0.99
+    simAnn*=0.99; //0.99
   }
   maleSudoku(sudoku);
   println("Kosten: "+kostenfunktion(sudoku));
