@@ -59,8 +59,8 @@ void draw() {
       schachfeld[i][j]=ausgangsposition[i][j];
     }
   }
-  greedy();
-  exportiereGraph(greedyGraph, "greedy");
+  simulatedAnnealing();  
+  exportiereGraph(simAnnGraph, "simAnn");
   println();
 
   for (int i=0; i<n; i++) {
@@ -68,9 +68,11 @@ void draw() {
       schachfeld[i][j]=ausgangsposition[i][j];
     }
   }
-  simulatedAnnealing();  
-  exportiereGraph(simAnnGraph, "simAnn");
+  greedy();
+  exportiereGraph(greedyGraph, "greedy");
   println();
+
+
 
   for (int i=0; i<n; i++) {
     for (int j=0; j<n; j++) {
