@@ -1,4 +1,5 @@
 # Jugend Forscht 2019 Projekt: "Lösung des N-Damen Problems auf einem adiabatischen Quantencomputer"
+![GitHub last commit](https://img.shields.io/github/last-commit/Quantum-Computing-Jufo-2019/JuFo-2019-Quantum-Computing)
 
 Website: https://domspatzen-quantum.de <br>
 Email: mail@domspatzen-quantum.de
