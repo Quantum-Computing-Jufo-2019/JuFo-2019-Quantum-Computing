@@ -6,8 +6,8 @@ Email: mail@domspatzen-quantum.de
 
 # Authors
 - [Jakov David Wallbrecher](https://github.com/JD-Walli)
-- [Jonathan Treffler](https://github.com/TessyPowder)
-- Paul Schappert
+- [Jonathan Treffler](https://github.com/JonathanTreffler)
+- [Paul Schappert](https://github.com/PaulSchappert)
 
 # Related Repositories:
 - [Dwave quantum computer animation](https://github.com/Quantum-Computing-Jufo-2019/dwave-quantum-computer-3d-animation)
