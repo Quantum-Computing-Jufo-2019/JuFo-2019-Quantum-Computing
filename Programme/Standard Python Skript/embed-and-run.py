@@ -7,6 +7,7 @@ qubomatrix = np.loadtxt('qubomatrix.txt')
 print('Loaded matrix:\n', qubomatrix, '\n')
 # convert into QUBO
 qubo = {(i,i):0.0 for i in range(len(qubomatrix))}
+print(type(qubo[(0,0)]))
 # necessary to keep the order of the sample columns consistent
 for index,value in np.ndenumerate(qubomatrix):
     if value != 0:
